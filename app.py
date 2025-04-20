@@ -32,7 +32,7 @@ centers_2d = pca.transform(kmeans.cluster_centers_)
 # Plotting
 fig, ax = plt.subplots()
 scatter = ax.scatter(X_pca[:, 0], X_pca[:, 1], c=y_kmeans, cmap='tab10', s=50)
-ax.scatter(centers_2d[:, 0], centers_2d[:, 1], c='black', s=200, marker='X', label='Centroids')
+ax.scatter(centers_2d[:, 0], centers_2d[:, 1], c='black', s=200, label='Centroids')
 ax.set_title("Clusters (2D PCA Projection)")
 ax.set_xlabel("PCA1")
 ax.set_ylabel("PCA2")
