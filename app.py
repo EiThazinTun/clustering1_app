@@ -3,44 +3,45 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+import numpy as np
 
-# Page configuration
+# Set up page
 st.set_page_config(page_title="k-Means Clustering App", layout="centered")
 
-# Title
-st.title("🔍 K-Means Clustering App with Iris Dataset")
+# Page title
+st.markdown("<h1 style='text-align: center;'>🔍 K-Means Clustering App with Iris Dataset</h1>", unsafe_allow_html=True)
 
-# Sidebar slider for selecting k
+# Sidebar for cluster count
 st.sidebar.header("Configure Clustering")
 k = st.sidebar.slider("Select number of clusters (k)", 2, 10, 3)
 
-# Load the Iris dataset
+# Load data
 iris = load_iris()
 X = iris.data
 
-# Reduce dimensions for visualization
+# PCA for 2D projection
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X)
 
-# Apply KMeans
+# KMeans clustering
 kmeans = KMeans(n_clusters=k, random_state=42)
-y_kmeans = kmeans.fit_predict(X)
+labels = kmeans.fit_predict(X)
 
-# Transform cluster centers for plotting
-centers_2d = pca.transform(kmeans.cluster_centers_)
+# Fixed custom colors
+color_list = ['orange', 'green', 'blue', 'red', 'purple', 'brown', 'pink', 'gray', 'olive', 'cyan']
+cluster_colors = [color_list[i] for i in labels]
 
 # Plotting
 fig, ax = plt.subplots()
-scatter = ax.scatter(X_pca[:, 0], X_pca[:, 1], c=y_kmeans, cmap='tab10', s=50)
-ax.scatter(centers_2d[:, 0], centers_2d[:, 1], c='black', s=200, label='Centroids')
+for i in range(k):
+    cluster_points = X_pca[labels == i]
+    ax.scatter(cluster_points[:, 0], cluster_points[:, 1], 
+               color=color_list[i], label=f"Cluster {i}", s=50)
+
 ax.set_title("Clusters (2D PCA Projection)")
 ax.set_xlabel("PCA1")
 ax.set_ylabel("PCA2")
-
-# Add custom legend
-for i in range(k):
-    ax.scatter([], [], color=scatter.cmap(i / k), label=f'Cluster {i}')
 ax.legend()
 
-# Display in Streamlit
+# Show plot
 st.pyplot(fig)
