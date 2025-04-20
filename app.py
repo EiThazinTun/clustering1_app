@@ -9,7 +9,7 @@ import numpy as np
 st.set_page_config(page_title="k-Means Clustering App", layout="centered")
 
 # Title
-st.markdown("<h1 style='text-align: center;'>🔍 K-Means Clustering App with Iris Dataset</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>🔍 K-Means Clustering App with Iris Dataset by Ei Thazin Tun</h1>", unsafe_allow_html=True)
 
 # Sidebar
 st.sidebar.header("Configure Clustering")
